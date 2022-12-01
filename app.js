@@ -24,9 +24,52 @@ db.connect ( (err) => {
     console.log ( 'database connection established');
 });
 
-app.post ( '/insert', (req, res) => {
+app.post ( '/dept/insert', (req, res) => {
     const dataToInsert = { ...req.body};
-    db.query ('INSERT INTO SET?', dataToInsert, (err, rows) => {
+    db.query (`INSERT INTO ${process.env.DATABASE}.department SET?`, dataToInsert, (err, rows) => {
+        if (err) {
+            res
+            .status (500)
+            .json ( {
+                status: 'error',
+                error: err.message,
+            });
+            return;
+        };
+        res
+        .status (200)
+        .json ( {
+            status: 'success',
+            message: 'Inserted department record',
+        });
+    });
+} );
+
+
+app.post ( '/staff/insert', (req, res) => {
+    const dataToInsert = { ...req.body};
+    db.query (`INSERT INTO ${process.env.DATABASE}.staff SET?`, dataToInsert, (err, rows) => {
+        if (err) {
+            res
+            .status (500)
+            .json ( {
+                status: 'error',
+                error: err.message,
+            });
+            return;
+        };
+        res
+        .status (200)
+        .json ( {
+            status: 'success',
+            message: 'Inserted employee record',
+        });
+    });
+} );
+
+app.post ( '/dept/update', (req, res) => {
+    const dataToInsert = { ...req.body};
+    db.query (`UPDATE ${process.env.DATABASE}.staff SET?`, dataToInsert, (err, rows) => {
         if (err) {
             res
             .status (500)
