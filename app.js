@@ -69,7 +69,7 @@ app.post ( '/staff/insert', (req, res) => {
     });
 } );
 
-app.post ( '/dept/update', (req, res) => {
+app.put ( '/dept/update', (req, res) => {
     const {deptName, deptManager} = req.body;
     db.query (`UPDATE ${process.env.DATABASE}.department SET deptName='${deptName}',
     deptManager = '${deptManager}' WHERE deptId='${req.body.deptId}'`, 
@@ -93,7 +93,7 @@ app.post ( '/dept/update', (req, res) => {
     });
 } );
 
-app.post ( '/staff/update', (req, res) => {
+app.put ( '/staff/update', (req, res) => {
     const {supervisor, salary, deptId, staffId } = req.body;
     db.query (`UPDATE ${process.env.DATABASE}.staff SET 
     supervisor = '${supervisor}', salary ='${salary}',
@@ -117,6 +117,8 @@ app.post ( '/staff/update', (req, res) => {
         });
     });
 } );
+
+
 
 app.listen ( process.env.PORT, () => {
     console.log ( 'listening on port ' + process.env.PORT );
