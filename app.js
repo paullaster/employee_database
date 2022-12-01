@@ -91,10 +91,11 @@ app.get ( '/dept/search/all', (req, res) => {
     });
 });
 
-app.get ( '/dept/search/', (req, res) => {
-    const {deptId} = req.body;
-    db.query ( `SELECT deptName, deptManager FROM ${process.env.DATABASE}.department
-    WHERE deptId = '${deptId}'`, ( err, rows) => {
+app.get ( '/staff/search/', (req, res) => {
+    const {staffId} = req.body;
+    db.query ( `SELECT fname, lname, designation,
+      FROM ${process.env.DATABASE}.department
+    WHERE staffId = '${staffId}'`, ( err, rows) => {
         if (err) {
             res
             .status (500)
@@ -108,7 +109,7 @@ app.get ( '/dept/search/', (req, res) => {
         .status (200)
         .json ( {
             status: 'success',
-            message: 'Retrieved department record successfully',
+            message: 'Retrieved staff record successfully',
             data: rows,
         });
     });
