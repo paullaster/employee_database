@@ -24,6 +24,10 @@ db.connect ( (err) => {
     console.log ( 'database connection established');
 });
 
+
+app.get ( '/dept/search/all', (req, res) => {});
+
+
 app.post ( '/dept/insert', (req, res) => {
     const dataToInsert = { ...req.body};
     db.query (`INSERT INTO ${process.env.DATABASE}.department SET?`, dataToInsert, (err, rows) => {
