@@ -70,8 +70,9 @@ app.post ( '/staff/insert', (req, res) => {
 } );
 
 app.post ( '/dept/update', (req, res) => {
-    db.query (`UPDATE ${process.env.DATABASE}.department SET 
-    deptManager = '${req.body.deptManager}' WHERE deptId='${req.body.deptId}'`, 
+    const {deptName, deptManager} = req.body;
+    db.query (`UPDATE ${process.env.DATABASE}.department SET deptName='${deptName}',
+    deptManager = '${deptManager}' WHERE deptId='${req.body.deptId}'`, 
     (err, rows) => {
         if (err) {
             res
