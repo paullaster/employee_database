@@ -222,7 +222,7 @@ app.delete ('/dept/delete', (req, res) => {
     });
 });
 
-app.delete ('/dept/delete', (req, res) => {
+app.delete ('/staff/delete', (req, res) => {
     const {staffId} = req.body;
     db.query (`DELETE FROM ${process.env.DATABASE}.department WHERE staffId ='${staffId}'`, (err, rows) => {
         if (err) {
