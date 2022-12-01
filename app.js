@@ -96,7 +96,7 @@ app.get("/staff/search/", (req, res) => {
       db.query(
         `SELECT deptName FROM ${process.env.DATABASE}.department
         WHERE deptId = '${rows[0].deptId}'`,
-        (err, rows) => {
+        (err, dept) => {
           if (err) {
             res.status(500).json({
               status: "error",
@@ -104,10 +104,12 @@ app.get("/staff/search/", (req, res) => {
             });
             return;
           }
+          const {deptId, ...staffDetails} = rows[0]
+          staffDetails.department = dept[0].deptName;
           res.status(200).json({
             status: "success",
             message: "Retrieved staff record successfully",
-            data: rows
+            data:staffDetails,
           });
         }
       );
