@@ -68,7 +68,7 @@ app.get("/dept/search/", (req, res) => {
 app.get("/staff/search/all", (req, res) => {
   db.query(
     `SELECT staff.fname, staff.lname,staff.title, staff.salary, staff.startDate, 
-  staff.supervisor, department.deptName 
+  staff.supervisor, department.deptName, department.deptManager 
   FROM ${process.env.DATABASE}.staff JOIN ${process.env.DATABASE}.department
   ON  ${process.env.DATABASE}.staff.deptId = ${process.env
       .DATABASE}.department.deptId`,
