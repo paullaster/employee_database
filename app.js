@@ -187,10 +187,10 @@ app.put ( '/dept/update', (req, res) => {
 } );
 
 app.put ( '/staff/update', (req, res) => {
-    const {supervisor, salary, deptId, staffId } = req.body;
+    const {supervisor, salary, deptId, staffId, title } = req.body;
     db.query (`UPDATE ${process.env.DATABASE}.staff SET 
     supervisor = '${supervisor}', salary ='${salary}',
-    deptId = '${deptId}' WHERE staffId ='${staffId}'`, 
+    deptId = '${deptId}', title ='${title}' WHERE staffId ='${staffId}'`, 
     (err, rows) => {
         if (err) {
             res
