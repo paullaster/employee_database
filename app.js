@@ -64,7 +64,8 @@ app.get("/dept/search/", (req, res) => {
 });
 
 app.get("/dept/search/all", (req, res) => {
-  db.query(`SELECT * FROM ${process.env.DATABASE}.department`, (err, rows) => {
+  db.query(`SELECT fname,lname,title, salary, startDate, supervisor, deptId
+   FROM ${process.env.DATABASE}.department`, (err, rows) => {
     if (err) {
       res.status(500).json({
         status: "error",
@@ -72,11 +73,14 @@ app.get("/dept/search/all", (req, res) => {
       });
       return;
     }
-    res.status(200).json({
-      status: "success",
-      message: "Retrieved all department record successfully",
-      data: rows
+    rows.forEach ( (row) => {
+        res.status(200).json({
+            status: "success",
+            message: "Retrieved all staff record successfully",
+            data: row
+          });
     });
+    
   });
 });
 
