@@ -70,7 +70,6 @@ app.post ( '/staff/insert', (req, res) => {
 } );
 
 app.post ( '/dept/update', (req, res) => {
-    const dataToInsert = { ...req.body};
     db.query (`UPDATE ${process.env.DATABASE}.department SET 
     deptManager = '${req.body.deptManager}' WHERE deptId='${req.body.deptId}'`, 
     (err, rows) => {
@@ -87,7 +86,32 @@ app.post ( '/dept/update', (req, res) => {
         .status (200)
         .json ( {
             status: 'success',
-            message: 'Inserted employee record',
+            message: 'department record updated successfully',
+            data: rows,
+        });
+    });
+} );
+
+app.post ( '/staff/update', (req, res) => {
+    const {supervisor, salary, deptId, staffId } = req.body;
+    db.query (`UPDATE ${process.env.DATABASE}.staff SET 
+    supervisor = '${supervisor}', salary ='${salary}',
+    deptId = '${deptId}' WHERE staffId ='${staffId}'`, 
+    (err, rows) => {
+        if (err) {
+            res
+            .status (500)
+            .json ( {
+                status: 'error',
+                error: err.message,
+            });
+            return;
+        };
+        res
+        .status (200)
+        .json ( {
+            status: 'success',
+            message: 'staff record updated successfully',
             data: rows,
         });
     });
