@@ -220,6 +220,24 @@ app.delete ('/dept/delete', (req, res) => {
     });
 });
 
+app.delete ('/dept/delete', (req, res) => {
+    const {staffId} = req.body;
+    db.query (`DELETE FROM ${process.env.DATABASE}.department WHERE staffId ='${staffId}'`, (err, rows) => {
+        if (err) {
+            res.status(500).json({
+              status: "error",
+              error: err.message
+            });
+            return;
+          }
+          res.status(200).json({
+            status: "success",
+            message: "staff record deleted successfully",
+            data: rows
+          });
+    });
+});
+
 
 app.listen(process.env.PORT, () => {
   console.log("listening on port " + process.env.PORT);
