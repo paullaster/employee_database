@@ -63,25 +63,28 @@ app.get("/dept/search/", (req, res) => {
   );
 });
 
-app.get("/dept/search/all", (req, res) => {
-  db.query(`SELECT fname,lname,title, salary, startDate, supervisor, deptId
-   FROM ${process.env.DATABASE}.department`, (err, rows) => {
-    if (err) {
-      res.status(500).json({
-        status: "error",
-        error: err.message
+app.get("/staff/search/all", (req, res) => {
+  db.query(
+    `SELECT staff.fname, staff.lname,staff.title, staff.salary, staff.startDate, 
+  staff.supervisor, department.deptName 
+  FROM ${process.env.DATABASE}.staff JOIN ${process.env.DATABASE}.department
+  ON  ${process.env.DATABASE}.staff.deptId = ${process.env
+      .DATABASE}.department.deptId`,
+    (err, rows) => {
+      if (err) {
+        res.status(500).json({
+          status: "error",
+          error: err.message
+        });
+        return;
+      }
+      res.status(200).json({
+        status: "success",
+        message: "Retrieved all staff record successfully",
+        data: rows
       });
-      return;
     }
-    rows.forEach ( (row) => {
-        res.status(200).json({
-            status: "success",
-            message: "Retrieved all staff record successfully",
-            data: row
-          });
-    });
-    
-  });
+  );
 });
 
 app.get("/staff/search/", (req, res) => {
@@ -108,12 +111,12 @@ app.get("/staff/search/", (req, res) => {
             });
             return;
           }
-          const {deptId, ...staffDetails} = rows[0]
+          const { deptId, ...staffDetails } = rows[0];
           staffDetails.department = dept[0].deptName;
           res.status(200).json({
             status: "success",
             message: "Retrieved staff record successfully",
-            data:staffDetails,
+            data: staffDetails
           });
         }
       );
