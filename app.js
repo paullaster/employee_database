@@ -25,7 +25,11 @@ db.connect ( (err) => {
 });
 
 
-app.get ( '/dept/search/all', (req, res) => {});
+app.get ( '/dept/search/all', (req, res) => {
+    db.query ( `SELECT * FROM ${process.env.DATABASE}.department`, ( err, rows) => {
+        
+    });
+});
 
 
 app.post ( '/dept/insert', (req, res) => {
