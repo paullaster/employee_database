@@ -41,6 +41,7 @@ app.post ( '/dept/insert', (req, res) => {
         .json ( {
             status: 'success',
             message: 'Inserted department record',
+            data: rows,
         });
     });
 } );
@@ -62,14 +63,17 @@ app.post ( '/staff/insert', (req, res) => {
         .status (200)
         .json ( {
             status: 'success',
-            message: 'Inserted employee record',
+            message: 'Inserted department record',
+            data: rows,
         });
     });
 } );
 
 app.post ( '/dept/update', (req, res) => {
     const dataToInsert = { ...req.body};
-    db.query (`UPDATE ${process.env.DATABASE}.staff SET?`, dataToInsert, (err, rows) => {
+    db.query (`UPDATE ${process.env.DATABASE}.department SET 
+    deptManager = '${req.body.deptManager}' WHERE deptId='${req.body.deptId}'`, 
+    (err, rows) => {
         if (err) {
             res
             .status (500)
@@ -84,6 +88,7 @@ app.post ( '/dept/update', (req, res) => {
         .json ( {
             status: 'success',
             message: 'Inserted employee record',
+            data: rows,
         });
     });
 } );
