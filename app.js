@@ -70,6 +70,49 @@ app.get ( '/dept/search/', (req, res) => {
 });
 
 
+app.get ( '/dept/search/all', (req, res) => {
+    db.query ( `SELECT * FROM ${process.env.DATABASE}.department`, ( err, rows) => {
+        if (err) {
+            res
+            .status (500)
+            .json ( {
+                status: 'error',
+                error: err.message,
+            });
+            return;
+        };
+        res
+        .status (200)
+        .json ( {
+            status: 'success',
+            message: 'Retrieved all department record successfully',
+            data: rows,
+        });
+    });
+});
+
+app.get ( '/dept/search/', (req, res) => {
+    const {deptId} = req.body;
+    db.query ( `SELECT deptName, deptManager FROM ${process.env.DATABASE}.department
+    WHERE deptId = '${deptId}'`, ( err, rows) => {
+        if (err) {
+            res
+            .status (500)
+            .json ( {
+                status: 'error',
+                error: err.message,
+            });
+            return;
+        };
+        res
+        .status (200)
+        .json ( {
+            status: 'success',
+            message: 'Retrieved department record successfully',
+            data: rows,
+        });
+    });
+});
 
 
 
