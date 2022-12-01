@@ -78,6 +78,7 @@ app.get("/staff/search/all", (req, res) => {
         });
         return;
       }
+      
       res.status(200).json({
         status: "success",
         message: "Retrieved all staff record successfully",
@@ -90,8 +91,10 @@ app.get("/staff/search/all", (req, res) => {
 app.get("/staff/search/", (req, res) => {
   const { staffId } = req.body;
   db.query(
-    `SELECT fname, lname, title, supervisor, salary, startDate, deptId
-      FROM ${process.env.DATABASE}.staff WHERE staffId = '${staffId}'`,
+    `SELECT fname, lname, title, supervisor, salary, startDate, deptName
+      FROM ${process.env.DATABASE}.staff JOIN ${process.env.DATABASE}.department ON
+       ${process.env.DATABASE}.staff.deptId=${process.env.DATABASE}.department.deptId
+       WHERE staffId = '${staffId}'`,
     (err, rows) => {
       if (err) {
         res.status(500).json({
@@ -99,27 +102,13 @@ app.get("/staff/search/", (req, res) => {
           error: err.message
         });
         return;
-      }
-      db.query(
-        `SELECT deptName FROM ${process.env.DATABASE}.department
-        WHERE deptId = '${rows[0].deptId}'`,
-        (err, dept) => {
-          if (err) {
-            res.status(500).json({
-              status: "error",
-              error: err.message
-            });
-            return;
-          }
-          const { deptId, ...staffDetails } = rows[0];
-          staffDetails.department = dept[0].deptName;
+      };
+      const {...detail} = rows[0];
           res.status(200).json({
             status: "success",
             message: "Retrieved staff record successfully",
-            data: staffDetails
+            data: detail
           });
-        }
-      );
     }
   );
 });
@@ -212,6 +201,25 @@ app.put("/staff/update", (req, res) => {
     }
   );
 });
+
+app.delete ('/dept/delete', (req, res) => {
+    const {deptId} = req.body;
+    db.query (`DELETE FROM ${process.env.DATABASE}.department WHERE deptId ='${deptId}'`, (err, rows) => {
+        if (err) {
+            res.status(500).json({
+              status: "error",
+              error: err.message
+            });
+            return;
+          }
+          res.status(200).json({
+            status: "success",
+            message: "department record deleted successfully",
+            data: rows
+          });
+    });
+});
+
 
 app.listen(process.env.PORT, () => {
   console.log("listening on port " + process.env.PORT);
