@@ -67,7 +67,7 @@ app.get("/dept/search/", (req, res) => {
 
 app.get("/staff/search/all", (req, res) => {
   db.query(
-    `SELECT staff.fname, staff.lname,staff.title, staff.salary, staff.startDate, 
+    `SELECT staff.staffId, staff.fname, staff.lname,staff.title, staff.salary, staff.startDate, 
   staff.supervisor, department.deptName, department.deptManager 
   FROM ${process.env.DATABASE}.staff JOIN ${process.env.DATABASE}.department
   ON  ${process.env.DATABASE}.staff.deptId = ${process.env
@@ -224,7 +224,7 @@ app.delete ('/dept/delete', (req, res) => {
 
 app.delete ('/staff/delete', (req, res) => {
     const {staffId} = req.body;
-    db.query (`DELETE FROM ${process.env.DATABASE}.department WHERE staffId ='${staffId}'`, (err, rows) => {
+    db.query (`DELETE FROM ${process.env.DATABASE}.staff WHERE staffId ='${staffId}'`, (err, rows) => {
         if (err) {
             res.status(500).json({
               status: "error",
